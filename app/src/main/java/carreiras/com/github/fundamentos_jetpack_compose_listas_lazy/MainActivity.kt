@@ -27,10 +27,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import carreiras.com.github.fundamentos_jetpack_compose_listas_lazy.components.GameCard
 import carreiras.com.github.fundamentos_jetpack_compose_listas_lazy.components.StudioCard
+import carreiras.com.github.fundamentos_jetpack_compose_listas_lazy.model.Game
 import carreiras.com.github.fundamentos_jetpack_compose_listas_lazy.repository.getAllGames
 import carreiras.com.github.fundamentos_jetpack_compose_listas_lazy.repository.getGamesByStudio
 import carreiras.com.github.fundamentos_jetpack_compose_listas_lazy.ui.theme.FundamentosjetpackcomposelistaslazyTheme
@@ -89,5 +91,29 @@ fun GamesScreen(modifier: Modifier = Modifier) {
                 GameCard(game = it)
             }
         }
+    }
+}
+
+@Preview(showBackground = true, name = "Games Screen Preview")
+@Composable
+fun PreviewGamesScreen() {
+    FundamentosjetpackcomposelistaslazyTheme {
+        GamesScreen()
+    }
+}
+
+@Preview(showBackground = true, name = "Studio Card Preview")
+@Composable
+fun PreviewStudioCard() {
+    FundamentosjetpackcomposelistaslazyTheme {
+        StudioCard(game = Game(1, "Example Game", "Example Studio", 2023))
+    }
+}
+
+@Preview(showBackground = true, name = "Game Card Preview")
+@Composable
+fun PreviewGameCard() {
+    FundamentosjetpackcomposelistaslazyTheme {
+        GameCard(game = Game(1, "Example Game", "Example Studio", 2023))
     }
 }

@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
 fun GamesScreen(modifier: Modifier = Modifier) {
     var searchTextState by remember { mutableStateOf("") }
     var gamesListState by remember { mutableStateOf(getAllGames()) }
+    var isFiltered by remember { mutableStateOf(false) }
 
     Column(modifier = modifier.padding(16.dp)) {
         Text(
@@ -72,7 +73,10 @@ fun GamesScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Nome do estúdio") },
             trailingIcon = {
-                IconButton(onClick = { gamesListState = getGamesByStudio(searchTextState) }) {
+                IconButton(onClick = { 
+                    gamesListState = getGamesByStudio(searchTextState) 
+                    isFiltered = true
+                }) {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = ""
@@ -80,8 +84,9 @@ fun GamesScreen(modifier: Modifier = Modifier) {
                 }
             }
         )
+
         // Botão de limpar filtro
-        if (searchTextState.isNotEmpty() || gamesListState != getAllGames()) {
+        if (isFiltered) {
             Text(
                 text = "Limpar filtro",
                 modifier = Modifier
@@ -90,22 +95,27 @@ fun GamesScreen(modifier: Modifier = Modifier) {
                     .clickable {
                         searchTextState = ""
                         gamesListState = getAllGames()
+                        isFiltered = false
                     },
                 fontWeight = FontWeight.SemiBold,
                 color = androidx.compose.ui.graphics.Color.Blue
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        LazyRow(){
-            items(gamesListState){ game ->
+
+        LazyRow {
+            items(gamesListState) { game ->
                 StudioCard(game = game, onClick = {
                     searchTextState = game.studio
                     gamesListState = getGamesByStudio(game.studio)
+                    isFiltered = true
                 })
             }
         }
+
         Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn() {
+
+        LazyColumn {
             items(gamesListState) {
                 GameCard(game = it)
             }
